@@ -38,7 +38,7 @@ jobs:
       - name: Update values.yaml
         uses: fjogeleit/yaml-update-action@main
         with:
-          valueFile: 'helm-charts/hello-world/values.yaml'
+          valueFile: 'hello-world-config/helm-charts/hello-world/values.yaml'
           propertyPath: 'image.tag'
           value: 0.${{github.run_number}}
           message: CD Change by Pipeline
