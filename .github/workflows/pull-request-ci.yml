@@ -63,7 +63,7 @@ jobs:
           propertyPath: 'image.tag'
           value: 0.${{github.run_number}}
           message: CD Change by Pipeline
-          commitChange: true
+          # commitChange: true
           updateFile: true
       
       
