@@ -22,7 +22,7 @@ jobs:
         uses: docker/build-push-action@v3
         with:
           push: true
-          tags: user/app:latest
+          tags: canpolatoral/hello-world:0.${{github.run_number}}
       
       
       
