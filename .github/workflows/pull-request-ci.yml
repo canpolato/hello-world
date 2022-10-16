@@ -60,7 +60,7 @@ jobs:
         with:
           repository: canpolatoral/hello-world-config
           workDir: 'hello-world-config'
-          valueFile: '/helm-charts/hello-world/values.yaml'
+          valueFile: 'helm-charts/hello-world/values.yaml'
           propertyPath: 'image.tag'
           value: 0.${{github.run_number}}
           branch: main
