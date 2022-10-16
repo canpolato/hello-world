@@ -26,13 +26,24 @@ jobs:
 
 
   change-deploy:
+    needs: docker
     runs-on: ubuntu-latest
     steps:
-      - name: checkout
+      - name: Checkout
         uses: actions/checkout@master
         with:
           name: canpolatoral/hello-world-config
           ref: refs/heads/main
+
+      - name: Update values.yaml
+        uses: fjogeleit/yaml-update-action@main
+        with:
+          valueFile: 'helm-charts/hello-world/values.yaml'
+          propertyPath: 'image.tag'
+          value: 0.${{github.run_number}}
+          message: CD Change by Pipeline
+          commitChange: true
+          updateFile: true
       
       
       
