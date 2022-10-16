@@ -65,7 +65,7 @@ jobs:
           branch: main
           masterBranchName: main
           targetBranch: main
-          # token: ${{ secrets.HELLO_WORLD_CONFIG_PAT }}
+          token: ${{ secrets.CONFIG_PAT }}
           message: CD Change by Pipeline
           commitChange: true
           updateFile: true
