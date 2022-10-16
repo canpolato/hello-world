@@ -58,6 +58,7 @@ jobs:
       - name: Update values.yaml
         uses: fjogeleit/yaml-update-action@main
         with:
+          repository: canpolatoral/hello-world-config
           valueFile: 'hello-world-config/helm-charts/hello-world/values.yaml'
           propertyPath: 'image.tag'
           value: 0.${{github.run_number}}
