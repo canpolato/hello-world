@@ -62,6 +62,9 @@ jobs:
           valueFile: 'hello-world-config/helm-charts/hello-world/values.yaml'
           propertyPath: 'image.tag'
           value: 0.${{github.run_number}}
+          branch: main
+          masterBranchName: main
+          targetBranch: main
           # token: ${{ secrets.HELLO_WORLD_CONFIG_PAT }}
           message: CD Change by Pipeline
           commitChange: true
