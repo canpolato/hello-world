@@ -20,8 +20,10 @@ jobs:
           password: ${{ secrets.DOCKERHUB_TOKEN }}
       - name: "GitHub Sha"
         run: echo ${{ github.sha }}
+      - name: Show GitHub context
         env:
-          First_Name: Mona
+          GITHUB_CONTEXT: ${{ toJson(github) }}
+        run: echo "$GITHUB_CONTEXT"
       - name: Build and push
         uses: docker/build-push-action@v3
         with:
