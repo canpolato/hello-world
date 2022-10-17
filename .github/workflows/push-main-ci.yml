@@ -16,6 +16,12 @@ jobs:
           ref: refs/heads/main
           path: './hello-world-config'
 
+      - name: "GitHub Sha"
+        run: echo ${{ github.sha }}
+      - name: Show GitHub context
+        env:
+          GITHUB_CONTEXT: ${{ toJson(github) }}
+          
       - name: Update values.yaml
         uses: fjogeleit/yaml-update-action@main
         with:
