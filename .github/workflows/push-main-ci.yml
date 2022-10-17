@@ -1,0 +1,37 @@
+name: Pull Request CI
+
+on:
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+
+  change-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@master
+        with:
+          repository: canpolatoral/hello-world-config
+          ref: refs/heads/main
+          path: './hello-world-config'
+
+      - name: Update values.yaml
+        uses: fjogeleit/yaml-update-action@main
+        with:
+          repository: canpolatoral/hello-world-config
+          workDir: 'hello-world-config'
+          valueFile: 'helm-charts/hello-world/values.yaml'
+          propertyPath: 'image.tag'
+          value: ${{ github.sha }}
+          branch: main
+          masterBranchName: main
+          targetBranch: main
+          token: ${{ secrets.CONFIG_PAT }}
+          message: CD Change by Pipeline
+          commitChange: true
+          updateFile: true
+      
+      
+      
+      
