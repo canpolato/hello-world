@@ -28,4 +28,4 @@ jobs:
         uses: docker/build-push-action@v3
         with:
           push: true
-          tags: canpolato/${{ github.event.repository.name }}:dev, canpolato/${{ github.event.repository.name }}:${{ github.run_number }}, canpolato/${{ github.event.repository.name }}:${{ github.event.pull_request.head.sha }}, canpolato/${{ github.event.repository.name }}:latest
+          tags: canpolatoral/${{ github.event.repository.name }}:dev, canpolatoral/${{ github.event.repository.name }}:${{ github.run_number }}, canpolatoral/${{ github.event.repository.name }}:${{ github.event.pull_request.head.sha }}, canpolatoral/${{ github.event.repository.name }}:latest
