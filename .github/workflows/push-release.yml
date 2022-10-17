@@ -67,7 +67,7 @@ jobs:
 
   uat-deployment:
     runs-on: ubuntu-latest
-    needs: sit
+    needs: sit-deployment
     environment: uat
     steps:
       - name: Checkout
@@ -103,7 +103,7 @@ jobs:
       
   pt-deployment:
     runs-on: ubuntu-latest
-    needs: uat
+    needs: uat-deployment
     environment: pt
     steps:
       - name: Checkout
