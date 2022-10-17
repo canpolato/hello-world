@@ -28,7 +28,7 @@ jobs:
         uses: docker/build-push-action@v3
         with:
           push: true
-          tags: canpolatoral/${{ github.event.repository.name }}:sit, canpolatoral/${{ github.event.repository.name }}:${{ github.run_number }}, canpolatoral/${{ github.event.repository.name }}:${{ github.event.pull_request.head.sha }}, canpolatoral/${{ github.event.repository.name }}:latest
+          tags: canpolatoral/${{ github.event.repository.name }}:sit, canpolatoral/${{ github.event.repository.name }}:${{ github.run_number }}, canpolatoral/${{ github.event.repository.name }}:${{ github.sha }}, canpolatoral/${{ github.event.repository.name }}:latest
 
   sit-deployment:
     runs-on: ubuntu-latest
@@ -47,7 +47,7 @@ jobs:
           GITHUB_CONTEXT: ${{ toJson(github) }}
         run: echo "$GITHUB_CONTEXT"
       - name: "Latest Commit Id"
-        run: echo ${{ github.event.commits[0].id }}
+        run: echo ${{ github.sha }}
 
       - name: Update values-sit.yaml
         uses: fjogeleit/yaml-update-action@main
@@ -56,7 +56,7 @@ jobs:
           workDir: '${{ github.event.repository.name }}-config'
           valueFile: 'helm-charts/${{ github.event.repository.name }}/values-sit.yaml'
           propertyPath: 'image.tag'
-          value: ${{ github.event.commits[0].id }}
+          value: ${{ github.sha }}
           branch: main
           masterBranchName: main
           targetBranch: main
@@ -82,7 +82,7 @@ jobs:
           GITHUB_CONTEXT: ${{ toJson(github) }}
         run: echo "$GITHUB_CONTEXT"
       - name: "Latest Commit Id"
-        run: echo ${{ github.event.commits[0].id }}
+        run: echo ${{ github.sha }}
 
       - name: Update values-sit.yaml
         uses: fjogeleit/yaml-update-action@main
@@ -91,7 +91,7 @@ jobs:
           workDir: '${{ github.event.repository.name }}-config'
           valueFile: 'helm-charts/${{ github.event.repository.name }}/values-uat.yaml'
           propertyPath: 'image.tag'
-          value: ${{ github.event.commits[0].id }}
+          value: ${{ github.sha }}
           branch: main
           masterBranchName: main
           targetBranch: main
@@ -118,7 +118,7 @@ jobs:
           GITHUB_CONTEXT: ${{ toJson(github) }}
         run: echo "$GITHUB_CONTEXT"
       - name: "Latest Commit Id"
-        run: echo ${{ github.event.commits[0].id }}
+        run: echo ${{ github.sha }}
 
       - name: Update values-sit.yaml
         uses: fjogeleit/yaml-update-action@main
@@ -127,7 +127,7 @@ jobs:
           workDir: '${{ github.event.repository.name }}-config'
           valueFile: 'helm-charts/${{ github.event.repository.name }}/values-pt.yaml'
           propertyPath: 'image.tag'
-          value: ${{ github.event.commits[0].id }}
+          value: ${{ github.sha }}
           branch: main
           masterBranchName: main
           targetBranch: main
