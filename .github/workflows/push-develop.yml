@@ -1,0 +1,44 @@
+name: Push to Develop
+
+on:
+  push:
+    branches: [ "develop" ]
+
+jobs:
+
+  change-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@master
+        with:
+          repository: canpolatoral/${{ github.event.repository.name }}-config
+          ref: refs/heads/main
+          path: './${{ github.event.repository.name }}-config'
+
+      - name: Show GitHub context
+        env:
+          GITHUB_CONTEXT: ${{ toJson(github) }}
+        run: echo "$GITHUB_CONTEXT"
+      - name: "Latest Commit Id"
+        run: echo ${{ github.event.commits[0].id }}
+
+      - name: Update values.yaml
+        uses: fjogeleit/yaml-update-action@main
+        with:
+          repository: canpolatoral/${{ github.event.repository.name }}-config
+          workDir: '${{ github.event.repository.name }}-config'
+          valueFile: 'helm-charts/${{ github.event.repository.name }}/values.yaml'
+          propertyPath: 'image.tag'
+          value: ${{ github.event.commits[0].id }}
+          branch: main
+          masterBranchName: main
+          targetBranch: main
+          token: ${{ secrets.CONFIG_PAT }}
+          message: CD Change by Pipeline
+          commitChange: true
+          updateFile: true
+      
+      
+      
+      

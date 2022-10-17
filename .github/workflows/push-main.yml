@@ -1,4 +1,4 @@
-name: Pull Request CI
+name: Push to Main
 
 on:
   push:
@@ -12,9 +12,9 @@ jobs:
       - name: Checkout
         uses: actions/checkout@master
         with:
-          repository: canpolatoral/hello-world-config
+          repository: canpolatoral/${{ github.event.repository.name }}-config
           ref: refs/heads/main
-          path: './hello-world-config'
+          path: './${{ github.event.repository.name }}-config'
 
       - name: Show GitHub context
         env:
@@ -26,9 +26,9 @@ jobs:
       - name: Update values.yaml
         uses: fjogeleit/yaml-update-action@main
         with:
-          repository: canpolatoral/hello-world-config
-          workDir: 'hello-world-config'
-          valueFile: 'helm-charts/hello-world/values.yaml'
+          repository: canpolatoral/${{ github.event.repository.name }}-config
+          workDir: '${{ github.event.repository.name }}-config'
+          valueFile: 'helm-charts/${{ github.event.repository.name }}/values.yaml'
           propertyPath: 'image.tag'
           value: ${{ github.event.commits[0].id }}
           branch: main

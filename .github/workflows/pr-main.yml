@@ -1,4 +1,4 @@
-name: Pull Request CI
+name: Pull Request to Main
 
 on:
   pull_request:
@@ -28,4 +28,4 @@ jobs:
         uses: docker/build-push-action@v3
         with:
           push: true
-          tags: canpolatoral/hello-world:${{ github.run_number }},canpolatoral/hello-world:${{ github.event.pull_request.head.sha }}, canpolatoral/hello-world:latest
+          tags: canpolatoral/${{ github.event.repository.name }}:sit, canpolatoral/${{ github.event.repository.name }}:${{ github.run_number }}, canpolatoral/${{ github.event.repository.name }}:${{ github.event.pull_request.head.sha }}, canpolatoral/${{ github.event.repository.name }}:latest
