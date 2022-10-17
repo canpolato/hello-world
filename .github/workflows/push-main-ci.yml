@@ -21,7 +21,7 @@ jobs:
       - name: Show GitHub context
         env:
           GITHUB_CONTEXT: ${{ toJson(github) }}
-          
+        run: echo "$GITHUB_CONTEXT"
       - name: Update values.yaml
         uses: fjogeleit/yaml-update-action@main
         with:
