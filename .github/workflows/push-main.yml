@@ -12,7 +12,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@master
         with:
-          repository: canpolatoral/${{ github.event.repository.name }}-config
+          repository: canpolato/${{ github.event.repository.name }}-config
           ref: refs/heads/main
           path: './${{ github.event.repository.name }}-config'
 
@@ -26,7 +26,7 @@ jobs:
       - name: Update values.yaml
         uses: fjogeleit/yaml-update-action@main
         with:
-          repository: canpolatoral/${{ github.event.repository.name }}-config
+          repository: canpolato/${{ github.event.repository.name }}-config
           workDir: '${{ github.event.repository.name }}-config'
           valueFile: 'helm-charts/${{ github.event.repository.name }}/values.yaml'
           propertyPath: 'image.tag'

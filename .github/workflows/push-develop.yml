@@ -6,13 +6,14 @@ on:
 
 jobs:
 
-  change-deploy:
+  dev-deployment:
     runs-on: ubuntu-latest
+    environment: sit
     steps:
       - name: Checkout
         uses: actions/checkout@master
         with:
-          repository: canpolatoral/${{ github.event.repository.name }}-config
+          repository: canpolato/${{ github.event.repository.name }}-config
           ref: refs/heads/main
           path: './${{ github.event.repository.name }}-config'
 
@@ -23,12 +24,12 @@ jobs:
       - name: "Latest Commit Id"
         run: echo ${{ github.event.commits[0].id }}
 
-      - name: Update values.yaml
+      - name: Update values-dev.yaml
         uses: fjogeleit/yaml-update-action@main
         with:
-          repository: canpolatoral/${{ github.event.repository.name }}-config
+          repository: canpolato/${{ github.event.repository.name }}-config
           workDir: '${{ github.event.repository.name }}-config'
-          valueFile: 'helm-charts/${{ github.event.repository.name }}/values.yaml'
+          valueFile: 'helm-charts/${{ github.event.repository.name }}/values-dev.yaml'
           propertyPath: 'image.tag'
           value: ${{ github.event.commits[0].id }}
           branch: main

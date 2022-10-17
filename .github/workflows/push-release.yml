@@ -1,0 +1,113 @@
+name: Push to Release
+
+on:
+  push:
+    branches: [ "release*" ]
+
+jobs:
+
+  sit-deployment:
+    runs-on: ubuntu-latest
+    environment: sit
+    steps:
+      - name: Checkout
+        uses: actions/checkout@master
+        with:
+          repository: canpolato/${{ github.event.repository.name }}-config
+          ref: refs/heads/main
+          path: './${{ github.event.repository.name }}-config'
+
+      - name: Show GitHub context
+        env:
+          GITHUB_CONTEXT: ${{ toJson(github) }}
+        run: echo "$GITHUB_CONTEXT"
+      - name: "Latest Commit Id"
+        run: echo ${{ github.event.commits[0].id }}
+
+      - name: Update values-sit.yaml
+        uses: fjogeleit/yaml-update-action@main
+        with:
+          repository: canpolato/${{ github.event.repository.name }}-config
+          workDir: '${{ github.event.repository.name }}-config'
+          valueFile: 'helm-charts/${{ github.event.repository.name }}/values-sit.yaml'
+          propertyPath: 'image.tag'
+          value: ${{ github.event.commits[0].id }}
+          branch: main
+          masterBranchName: main
+          targetBranch: main
+          token: ${{ secrets.CONFIG_PAT }}
+          message: CD Change by Pipeline
+          commitChange: true
+          updateFile: true
+
+  uat-deployment:
+    runs-on: ubuntu-latest
+    needs: sit
+    environment: uat
+    steps:
+      - name: Checkout
+        uses: actions/checkout@master
+        with:
+          repository: canpolato/${{ github.event.repository.name }}-config
+          ref: refs/heads/main
+          path: './${{ github.event.repository.name }}-config'
+
+      - name: Show GitHub context
+        env:
+          GITHUB_CONTEXT: ${{ toJson(github) }}
+        run: echo "$GITHUB_CONTEXT"
+      - name: "Latest Commit Id"
+        run: echo ${{ github.event.commits[0].id }}
+
+      - name: Update values-sit.yaml
+        uses: fjogeleit/yaml-update-action@main
+        with:
+          repository: canpolato/${{ github.event.repository.name }}-config
+          workDir: '${{ github.event.repository.name }}-config'
+          valueFile: 'helm-charts/${{ github.event.repository.name }}/values-uat.yaml'
+          propertyPath: 'image.tag'
+          value: ${{ github.event.commits[0].id }}
+          branch: main
+          masterBranchName: main
+          targetBranch: main
+          token: ${{ secrets.CONFIG_PAT }}
+          message: CD Change by Pipeline
+          commitChange: true
+          updateFile: true
+      
+      
+  pt-deployment:
+    runs-on: ubuntu-latest
+    needs: uat
+    environment: pt
+    steps:
+      - name: Checkout
+        uses: actions/checkout@master
+        with:
+          repository: canpolato/${{ github.event.repository.name }}-config
+          ref: refs/heads/main
+          path: './${{ github.event.repository.name }}-config'
+
+      - name: Show GitHub context
+        env:
+          GITHUB_CONTEXT: ${{ toJson(github) }}
+        run: echo "$GITHUB_CONTEXT"
+      - name: "Latest Commit Id"
+        run: echo ${{ github.event.commits[0].id }}
+
+      - name: Update values-sit.yaml
+        uses: fjogeleit/yaml-update-action@main
+        with:
+          repository: canpolato/${{ github.event.repository.name }}-config
+          workDir: '${{ github.event.repository.name }}-config'
+          valueFile: 'helm-charts/${{ github.event.repository.name }}/values-pt.yaml'
+          propertyPath: 'image.tag'
+          value: ${{ github.event.commits[0].id }}
+          branch: main
+          masterBranchName: main
+          targetBranch: main
+          token: ${{ secrets.CONFIG_PAT }}
+          message: CD Change by Pipeline
+          commitChange: true
+          updateFile: true
+      
