@@ -6,8 +6,9 @@ on:
 
 jobs:
 
-  change-deploy:
+  prod-deployment:
     runs-on: ubuntu-latest
+    environment: prod
     steps:
       - name: Checkout
         uses: actions/checkout@master
@@ -23,12 +24,12 @@ jobs:
       - name: "Latest Commit Id"
         run: echo ${{ github.event.commits[0].id }}
 
-      - name: Update values.yaml
+      - name: Update values-prod.yaml
         uses: fjogeleit/yaml-update-action@main
         with:
           repository: canpolato/${{ github.event.repository.name }}-config
           workDir: '${{ github.event.repository.name }}-config'
-          valueFile: 'helm-charts/${{ github.event.repository.name }}/values.yaml'
+          valueFile: 'helm-charts/${{ github.event.repository.name }}/values-prod.yaml'
           propertyPath: 'image.tag'
           value: ${{ github.event.commits[0].id }}
           branch: main
