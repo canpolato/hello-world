@@ -18,14 +18,14 @@ jobs:
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
-      - name: "GitHub Sha"
-        run: echo ${{ github.sha }}
       - name: Show GitHub context
         env:
           GITHUB_CONTEXT: ${{ toJson(github) }}
         run: echo "$GITHUB_CONTEXT"
+      - name: "Latest Commit Id"
+        run: echo ${{ github.event.pull_request.head.sha }}
       - name: Build and push
         uses: docker/build-push-action@v3
         with:
           push: true
-          tags: canpolatoral/hello-world:${{ github.run_number }},canpolatoral/hello-world:${{ github.sha }}, canpolatoral/hello-world:latest
+          tags: canpolatoral/hello-world:${{ github.run_number }},canpolatoral/hello-world:${{ github.event.pull_request.head.sha }}, canpolatoral/hello-world:latest

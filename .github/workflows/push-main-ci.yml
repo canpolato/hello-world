@@ -16,12 +16,13 @@ jobs:
           ref: refs/heads/main
           path: './hello-world-config'
 
-      - name: "GitHub Sha"
-        run: echo ${{ github.sha }}
       - name: Show GitHub context
         env:
           GITHUB_CONTEXT: ${{ toJson(github) }}
         run: echo "$GITHUB_CONTEXT"
+      - name: "Latest Commit Id"
+        run: echo ${{ github.event.commits[0].id }}
+
       - name: Update values.yaml
         uses: fjogeleit/yaml-update-action@main
         with:
@@ -29,7 +30,7 @@ jobs:
           workDir: 'hello-world-config'
           valueFile: 'helm-charts/hello-world/values.yaml'
           propertyPath: 'image.tag'
-          value: ${{ github.sha }}
+          value: ${{ github.event.commits[0].id }}
           branch: main
           masterBranchName: main
           targetBranch: main
