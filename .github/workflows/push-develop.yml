@@ -12,10 +12,20 @@ env:
 
 jobs:
 
+  pr-check:
+    runs-on: ubuntu-latest
+    steps:
+      - run: |
+          if [ ${{ github.event.pull_request.merged }} ]
+          then
+            echo "pr is merged"
+          else
+            exit 1
+          fi
+        shell: bash
+
   dev-deployment:
-    if: |
-      (startsWith(github.head_ref, 'feature') || startsWith(github.head_ref, 'hotfix')
-      && github.event.pull_request.merged == true
+    needs: pr-check
     runs-on: ubuntu-latest
     environment: dev
     steps:
