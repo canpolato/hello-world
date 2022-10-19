@@ -38,7 +38,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@master
         with:
-          repository: ${{ github.event.org.id }}/${{ github.event.repository.name }}-config
+          repository: ${{ github.repository }}-config
           ref: refs/heads/main
           path: './${{ github.event.repository.name }}-config'
 
@@ -52,7 +52,7 @@ jobs:
       - name: Update values-sit.yaml
         uses: fjogeleit/yaml-update-action@main
         with:
-          repository: ${{ github.event.org.id }}/${{ github.event.repository.name }}-config
+          repository: ${{ github.repository }}-config
           workDir: '${{ github.event.repository.name }}-config'
           valueFile: 'helm-charts/${{ github.event.repository.name }}/values-sit.yaml'
           propertyPath: 'image.tag'
@@ -73,7 +73,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@master
         with:
-          repository: ${{ github.event.org.id }}/${{ github.event.repository.name }}-config
+          repository: ${{ github.repository }}-config
           ref: refs/heads/main
           path: './${{ github.event.repository.name }}-config'
 
@@ -87,7 +87,7 @@ jobs:
       - name: Update values-sit.yaml
         uses: fjogeleit/yaml-update-action@main
         with:
-          repository: ${{ github.event.org.id }}/${{ github.event.repository.name }}-config
+          repository: ${{ github.repository }}-config
           workDir: '${{ github.event.repository.name }}-config'
           valueFile: 'helm-charts/${{ github.event.repository.name }}/values-uat.yaml'
           propertyPath: 'image.tag'
@@ -109,7 +109,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@master
         with:
-          repository: ${{ github.event.org.id }}/${{ github.event.repository.name }}-config
+          repository: ${{ github.repository }}-config
           ref: refs/heads/main
           path: './${{ github.event.repository.name }}-config'
 
@@ -123,7 +123,7 @@ jobs:
       - name: Update values-sit.yaml
         uses: fjogeleit/yaml-update-action@main
         with:
-          repository: ${{ github.event.org.id }}/${{ github.event.repository.name }}-config
+          repository: ${{ github.repository }}-config
           workDir: '${{ github.event.repository.name }}-config'
           valueFile: 'helm-charts/${{ github.event.repository.name }}/values-pt.yaml'
           propertyPath: 'image.tag'

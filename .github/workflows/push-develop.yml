@@ -13,7 +13,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@master
         with:
-          repository: ${{ github.event.org.id }}/${{ github.event.repository.name }}-config
+          repository: ${{ github.repository }}-config
           ref: refs/heads/main
           path: './${{ github.event.repository.name }}-config'
 
@@ -27,7 +27,7 @@ jobs:
       - name: Update values-dev.yaml
         uses: fjogeleit/yaml-update-action@main
         with:
-          repository: ${{ github.event.org.id }}/${{ github.event.repository.name }}-config
+          repository: ${{ github.repository }}-config
           workDir: '${{ github.event.repository.name }}-config'
           valueFile: 'helm-charts/${{ github.event.repository.name }}/values-dev.yaml'
           propertyPath: 'image.tag'
