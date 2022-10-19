@@ -6,7 +6,7 @@ on:
 
 jobs:
 
-  docker:
+  docker-image-build:
     runs-on: ubuntu-latest
     steps:
       - name: Set up QEMU
@@ -28,7 +28,7 @@ jobs:
         uses: docker/build-push-action@v3
         with:
           push: true
-          tags: canpolatoral/${{ github.event.repository.name }}:sit, canpolatoral/${{ github.event.repository.name }}:${{ github.run_number }}, canpolatoral/${{ github.event.repository.name }}:${{ github.sha }}, canpolatoral/${{ github.event.repository.name }}:latest
+          tags: canpolatoral/${{ github.event.repository.name }}:${{ github.run_number }}, canpolatoral/${{ github.event.repository.name }}:${{ github.sha }}, canpolatoral/${{ github.event.repository.name }}:latest
 
   sit-deployment:
     runs-on: ubuntu-latest
@@ -65,6 +65,17 @@ jobs:
           commitChange: true
           updateFile: true
 
+      - name: Login to Docker Hub
+        uses: docker/login-action@v2
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+      - name: Retag image as SIT
+        run: |
+          docker pull canpolatoral/${{ github.event.repository.name }}:${{ github.run_number }}
+          docker tag canpolatoral/${{ github.event.repository.name }}:${{ github.run_number }} canpolatoral/${{ github.event.repository.name }}:sit
+          docker push canpolatoral/${{ github.event.repository.name }}:sit
+
   uat-deployment:
     runs-on: ubuntu-latest
     needs: sit-deployment
@@ -99,6 +110,17 @@ jobs:
           message: CD Change by Pipeline
           commitChange: true
           updateFile: true
+
+      - name: Login to Docker Hub
+        uses: docker/login-action@v2
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+      - name: Retag image as UAT
+        run: |
+          docker pull canpolatoral/${{ github.event.repository.name }}:${{ github.run_number }}
+          docker tag canpolatoral/${{ github.event.repository.name }}:${{ github.run_number }} canpolatoral/${{ github.event.repository.name }}:uat
+          docker push canpolatoral/${{ github.event.repository.name }}:uat
       
       
   pt-deployment:
@@ -135,4 +157,16 @@ jobs:
           message: CD Change by Pipeline
           commitChange: true
           updateFile: true
+
+      - name: Login to Docker Hub
+        uses: docker/login-action@v2
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+      - name: Retag image as PT
+        run: |
+          docker pull canpolatoral/${{ github.event.repository.name }}:${{ github.run_number }}
+          docker tag canpolatoral/${{ github.event.repository.name }}:${{ github.run_number }} canpolatoral/${{ github.event.repository.name }}:pt
+          docker push canpolatoral/${{ github.event.repository.name }}:pt
+      
       
