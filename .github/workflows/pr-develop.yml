@@ -10,7 +10,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - run: |
-          if [ ${{ github.head_ref }} = feature*  ] || [ ${{ github.head_ref }} = hotfix* ]
+          if [[ ${{ github.head_ref }} = feature*  ]] || [[ ${{ github.head_ref }} = hotfix* ]]
           then
             echo "${{ github.head_ref }} branch is allowed"
           else
