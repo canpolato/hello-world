@@ -29,7 +29,7 @@ jobs:
           GITHUB_CONTEXT: ${{ toJson(github) }}
         run: echo "$GITHUB_CONTEXT"
       - name: "Latest Commit Id"
-        run: echo ${{ PR_LATEST_COMMIT }}
+        run: echo ${{ env.PR_LATEST_COMMIT }}
 
       - name: Update values-dev.yaml
         uses: fjogeleit/yaml-update-action@main
@@ -38,7 +38,7 @@ jobs:
           workDir: '${{ github.event.repository.name }}-config'
           valueFile: 'helm-charts/${{ github.event.repository.name }}/values-dev.yaml'
           propertyPath: 'image.tag'
-          value: ${{ PR_LATEST_COMMIT }}
+          value: ${{ env.PR_LATEST_COMMIT }}
           branch: main
           masterBranchName: main
           targetBranch: main
@@ -58,6 +58,6 @@ jobs:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
       - run: |
-          docker pull canpolatoral/${{ github.event.repository.name }}:${{ PR_LATEST_COMMIT }}
-          docker tag canpolatoral/${{ github.event.repository.name }}:${{ PR_LATEST_COMMIT }} canpolatoral/${{ github.event.repository.name }}:dev
-          docker push canpolatoral/${{ github.event.repository.name }}:${{ PR_LATEST_COMMIT }}
+          docker pull canpolatoral/${{ github.event.repository.name }}:${{ env.PR_LATEST_COMMIT }}
+          docker tag canpolatoral/${{ github.event.repository.name }}:${{ env.PR_LATEST_COMMIT }} canpolatoral/${{ github.event.repository.name }}:dev
+          docker push canpolatoral/${{ github.event.repository.name }}:${{ env.PR_LATEST_COMMIT }}
