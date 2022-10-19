@@ -9,10 +9,20 @@ on:
 
 jobs:
 
+  pr-check:
+    runs-on: ubuntu-latest
+    steps:
+      - run: |
+          if [[ ${{ github.event.pull_request.merged }}  ]]
+          then
+            echo "Merge completed"
+          else
+            exit 1
+          fi
+        shell: bash
+
   prod-deployment:
-    if: |
-      (startsWith(github.head_ref, 'release') || startsWith(github.head_ref, 'hotfix')
-      && github.event.pull_request.merged == true
+    needs: pr-check
     runs-on: ubuntu-latest
     environment: prod
     steps:
