@@ -13,7 +13,9 @@ env:
 jobs:
 
   dev-deployment:
-    if: github.event.pull_request.merged == true
+    if: |
+      (startsWith(github.head_ref, 'feature') || startsWith(github.head_ref, 'hotfix')
+      && github.event.pull_request.merged == true
     runs-on: ubuntu-latest
     environment: dev
     steps:

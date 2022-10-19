@@ -10,7 +10,9 @@ on:
 jobs:
 
   prod-deployment:
-    if: github.event.pull_request.merged == true
+    if: |
+      (startsWith(github.head_ref, 'release') || startsWith(github.head_ref, 'hotfix')
+      && github.event.pull_request.merged == true
     runs-on: ubuntu-latest
     environment: prod
     steps:
