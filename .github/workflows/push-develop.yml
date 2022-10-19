@@ -1,12 +1,16 @@
 name: Push to Develop
 
 on:
-  push:
+  pull_request:
+    types: [ closed ]
     branches: [ "develop" ]
+  # push:
+  #   branches: [ "develop" ]
 
 jobs:
 
   dev-deployment:
+    if: github.event.pull_request.merged == true
     runs-on: ubuntu-latest
     environment: dev
     steps:
@@ -22,7 +26,7 @@ jobs:
           GITHUB_CONTEXT: ${{ toJson(github) }}
         run: echo "$GITHUB_CONTEXT"
       - name: "Latest Commit Id"
-        run: echo ${{ github.event.commits[0].id }}
+        run: echo ${{ github.event.pull_request.head.sha }}
 
       - name: Update values-dev.yaml
         uses: fjogeleit/yaml-update-action@main
@@ -31,7 +35,7 @@ jobs:
           workDir: '${{ github.event.repository.name }}-config'
           valueFile: 'helm-charts/${{ github.event.repository.name }}/values-dev.yaml'
           propertyPath: 'image.tag'
-          value: ${{ github.event.commits[0].id }}
+          value: ${{ github.event.pull_request.head.sha }}
           branch: main
           masterBranchName: main
           targetBranch: main
@@ -51,6 +55,6 @@ jobs:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
       - run: |
-          docker pull canpolatoral/${{ github.event.repository.name }}:${{ github.event.commits[0].id }}
-          docker tag canpolatoral/${{ github.event.repository.name }}:${{ github.event.commits[0].id }} canpolatoral/${{ github.event.repository.name }}:dev
+          docker pull canpolatoral/${{ github.event.repository.name }}:${{ github.event.pull_request.head.sha }}
+          docker tag canpolatoral/${{ github.event.repository.name }}:${{ github.event.pull_request.head.sha }} canpolatoral/${{ github.event.repository.name }}:dev
           docker push canpolatoral/${{ github.event.repository.name }}
