@@ -15,7 +15,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - run: |
-          if [[ ${{ github.event.pull_request.merged }}  ]]
+          if [[ ${{ github.event.pull_request.merged }} = true ]]
           then
             echo "Merge completed"
           else
