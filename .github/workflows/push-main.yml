@@ -7,8 +7,10 @@ on:
   # push:
   #   branches: [ "main" ]
 
-jobs:
+env:
+  PR_LATEST_COMMIT: ${{ github.event.pull_request.head.sha }}
 
+jobs:
   pr-check:
     runs-on: ubuntu-latest
     steps:
@@ -38,7 +40,7 @@ jobs:
           GITHUB_CONTEXT: ${{ toJson(github) }}
         run: echo "$GITHUB_CONTEXT"
       - name: "Latest Commit Id"
-        run: echo ${{ github.event.commits[0].id }}
+        run: echo ${{ env.PR_LATEST_COMMIT }}
 
       - name: Update values-prod.yaml
         uses: fjogeleit/yaml-update-action@main
@@ -47,7 +49,7 @@ jobs:
           workDir: '${{ github.event.repository.name }}-config'
           valueFile: 'helm-charts/${{ github.event.repository.name }}/values-prod.yaml'
           propertyPath: 'image.tag'
-          value: ${{ github.event.commits[0].id }}
+          value: ${{ env.PR_LATEST_COMMIT }}
           branch: main
           masterBranchName: main
           targetBranch: main
