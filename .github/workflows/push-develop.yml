@@ -59,8 +59,7 @@ jobs:
           commitChange: true
           updateFile: true
       
-  tag-image:
-    name: Retag Image as DEV
+  retag-image:
     runs-on: ubuntu-latest
     needs: dev-deployment
     steps:
