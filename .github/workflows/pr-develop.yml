@@ -14,6 +14,7 @@ jobs:
           then
             echo "${{ github.head_ref }} branch is allowed"
           else
+            echo "${{ github.head_ref }} branch is not allowed"
             exit 1
           fi
         shell: bash
