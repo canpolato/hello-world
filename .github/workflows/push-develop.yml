@@ -35,7 +35,7 @@ jobs:
         shell: bash
 
   dev-deployment:
-    needs: pr-check
+    needs: branch-and-pr-check
     runs-on: ubuntu-latest
     environment: dev
     steps:

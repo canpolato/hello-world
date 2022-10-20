@@ -34,7 +34,7 @@ jobs:
         shell: bash
 
   prod-deployment:
-    needs: pr-check
+    needs: branch-and-pr-check
     runs-on: ubuntu-latest
     environment: prod
     steps:
