@@ -6,7 +6,21 @@ on:
 
 jobs:
 
-  docker:
+  branch-check:
+    runs-on: ubuntu-latest
+    steps:
+      - run: |
+          if [[ ${{ github.head_ref }} = feature*  ]] || [[ ${{ github.head_ref }} = hotfix* ]]
+          then
+            echo "${{ github.head_ref }} branch is allowed"
+          else
+            echo "${{ github.head_ref }} branch is not allowed"
+            exit 1
+          fi
+        shell: bash
+
+  docker-image-build:
+    needs: branch-check
     runs-on: ubuntu-latest
     steps:
       - name: Set up QEMU
@@ -28,4 +42,4 @@ jobs:
         uses: docker/build-push-action@v3
         with:
           push: true
-          tags: canpolatoral/${{ github.event.repository.name }}:dev, canpolatoral/${{ github.event.repository.name }}:${{ github.run_number }}, canpolatoral/${{ github.event.repository.name }}:${{ github.event.pull_request.head.sha }}, canpolatoral/${{ github.event.repository.name }}:latest
+          tags: canpolatoral/${{ github.event.repository.name }}:${{ github.run_number }}, canpolatoral/${{ github.event.repository.name }}:${{ github.event.pull_request.head.sha }}, canpolatoral/${{ github.event.repository.name }}:latest

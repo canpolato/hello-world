@@ -1,19 +1,47 @@
 name: Push to Main
 
 on:
-  push:
+  pull_request:
+    types: [ closed ]
     branches: [ "main" ]
+  # push:
+  #   branches: [ "main" ]
+
+env:
+  PR_LATEST_COMMIT: ${{ github.event.pull_request.head.sha }}
 
 jobs:
+  branch-and-pr-check:
+    runs-on: ubuntu-latest
+    steps:
+      - run: |
+          if [[ ${{ github.head_ref }} = release*  ]] || [[ ${{ github.head_ref }} = hotfix* ]]
+          then
+            echo "${{ github.head_ref }} branch is allowed"
+          else
+            echo "${{ github.head_ref }} branch is not allowed"
+            exit 1
+          fi
+        shell: bash
+      - run: |
+          if [[ ${{ github.event.pull_request.merged }} = true ]]
+          then
+            echo "Merge completed"
+          else
+            echo "Merge is not completed"
+            exit 1
+          fi
+        shell: bash
 
   prod-deployment:
+    needs: branch-and-pr-check
     runs-on: ubuntu-latest
     environment: prod
     steps:
       - name: Checkout
         uses: actions/checkout@master
         with:
-          repository: canpolato/${{ github.event.repository.name }}-config
+          repository: ${{ github.repository }}-config
           ref: refs/heads/main
           path: './${{ github.event.repository.name }}-config'
 
@@ -22,16 +50,16 @@ jobs:
           GITHUB_CONTEXT: ${{ toJson(github) }}
         run: echo "$GITHUB_CONTEXT"
       - name: "Latest Commit Id"
-        run: echo ${{ github.event.commits[0].id }}
+        run: echo ${{ env.PR_LATEST_COMMIT }}
 
       - name: Update values-prod.yaml
         uses: fjogeleit/yaml-update-action@main
         with:
-          repository: canpolato/${{ github.event.repository.name }}-config
+          repository: ${{ github.repository }}-config
           workDir: '${{ github.event.repository.name }}-config'
           valueFile: 'helm-charts/${{ github.event.repository.name }}/values-prod.yaml'
           propertyPath: 'image.tag'
-          value: ${{ github.event.commits[0].id }}
+          value: ${{ env.PR_LATEST_COMMIT }}
           branch: main
           masterBranchName: main
           targetBranch: main

@@ -1,0 +1,20 @@
+name: Pull Request to Develop
+
+on:
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+
+  branch-check:
+    runs-on: ubuntu-latest
+    steps:
+      - run: |
+          if [[ ${{ github.head_ref }} = release*  ]] || [[ ${{ github.head_ref }} = hotfix* ]]
+          then
+            echo "${{ github.head_ref }} branch is allowed"
+          else
+            echo "${{ github.head_ref }} branch is not allowed"
+            exit 1
+          fi
+        shell: bash
