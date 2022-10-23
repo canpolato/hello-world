@@ -6,4 +6,4 @@ on:
 
 jobs:
   call-workflow:
-    uses: canpolato/core-pipelines/.github/workflows/core-pr-main.yml@{main}
+    uses: canpolato/core-pipelines/.github/workflows/core-pr-main.yml@main
