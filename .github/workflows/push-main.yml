@@ -7,7 +7,7 @@ on:
 
 jobs:
   call-workflow:
-    uses: canpolato/core-pipelines/.github/workflows/core-push-main.yml
+    uses: canpolato/core-pipelines/.github/workflows/core-push-main.yml@{main}
       
       
       
