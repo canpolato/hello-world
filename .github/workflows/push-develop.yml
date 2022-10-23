@@ -6,6 +6,6 @@ on:
     branches: [ "develop" ]
 
 jobs:
-  call:
+  central:
     uses: canpolato/core-pipelines/.github/workflows/core-push-develop.yml@main
     secrets: inherit

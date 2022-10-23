@@ -5,6 +5,6 @@ on:
     branches: [ "release/*" ]
 
 jobs:
-  call:
+  central:
     uses: canpolato/core-pipelines/.github/workflows/core-push-release.yml@main
     secrets: inherit

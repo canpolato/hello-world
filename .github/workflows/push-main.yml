@@ -6,6 +6,6 @@ on:
     branches: [ "main" ]
 
 jobs:
-  call:
+  central:
     uses: canpolato/core-pipelines/.github/workflows/core-push-main.yml@main
     secrets: inherit
