@@ -7,3 +7,4 @@ on:
 jobs:
   call-workflow:
     uses: canpolato/core-pipelines/.github/workflows/core-pr-develop.yml@main
+    secrets: inherit

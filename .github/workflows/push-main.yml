@@ -8,7 +8,4 @@ on:
 jobs:
   call-workflow:
     uses: canpolato/core-pipelines/.github/workflows/core-push-main.yml@main
-      
-      
-      
-      
+    secrets: inherit

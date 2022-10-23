@@ -6,4 +6,5 @@ on:
 
 jobs:
   call-workflow:
-    uses: canpolato/core-pipelines/.github/workflows/core-push-release.yml@main
+    uses: canpolato/core-pipelines/.github/workflows/core-push-release.yml@
+    secrets: inherit
