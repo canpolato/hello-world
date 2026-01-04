@@ -1,8 +1,12 @@
 name: Push to Develop
 
+# on:
+#   pull_request:
+#     types: [ closed ]
+#     branches: [ "develop" ]
+
 on:
-  pull_request:
-    types: [ closed ]
+  push:
     branches: [ "develop" ]
 
 jobs:
