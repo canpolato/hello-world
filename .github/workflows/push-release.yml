@@ -6,5 +6,6 @@ on:
 
 jobs:
   central:
+    if: github.event.created == false
     uses: canpolato/core-pipelines/.github/workflows/core-push-release.yml@main
     secrets: inherit
