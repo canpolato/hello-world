@@ -1,0 +1,21 @@
+name: Promote to Staging
+
+on:
+  workflow_call:
+    inputs:
+      cr_number:
+        description: "CR Number"
+        required: true
+        type: string
+      release_branch_name:
+        description: "Docker image tag to promote (e.g. release/release-name)"
+        required: true
+        type: string
+
+jobs:
+  central:
+    uses: canpolato/core-pipelines/.github/workflows/core-promote-staging.yml@main
+    secrets: inherit
+    with:
+      cr_number: ${{ inputs.cr_number }}
+      release_branch_name: ${{ inputs.release_branch_name }}
