@@ -8,7 +8,7 @@ on:
         required: true
         type: string
       release_branch_name:
-        description: "Docker image tag to promote (e.g. release/release-name)"
+        description: "Release branch to promote (e.g. release/release-name)"
         required: true
         type: string
 
