@@ -8,3 +8,5 @@ jobs:
   central:
     uses: canpolato/core-pipelines/.github/workflows/core-pr-develop.yml@main
     secrets: inherit
+    with:
+      runs-on: 'arc-runner-set'
