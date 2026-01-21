@@ -9,4 +9,4 @@ jobs:
     uses: canpolato/core-pipelines/.github/workflows/core-pr-develop.yml@main
     secrets: inherit
     with:
-      runs-on: 'arc-runner-set'
+      runs-on: 'ubuntu-latest' #'arc-runner-set'
