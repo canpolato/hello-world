@@ -27,7 +27,7 @@ git push -u origin release/$RELEASE_NUMBER
 git fetch origin
 
 ### 2. Define feature branch name
-FEATURE_NAME=200
+FEATURE_NAME=201
 
 ### 3. Create feature branch from develop
 git checkout -b feature/$FEATURE_NAME  origin/develop
