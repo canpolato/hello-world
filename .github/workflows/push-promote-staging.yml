@@ -1,4 +1,5 @@
 name: Promote to Staging
+run-name: "Promote ${{ inputs.release_branch_name }} to STG · CR-${{ inputs.cr_number }} · by @${{ github.actor }}"
 
 on:
   workflow_dispatch:
